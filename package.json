@@ -1,0 +1,25 @@
+{
+   "name": "lumina",
+  "version": "0.0.0",
+  "private": true,
+  "description": "An intelligent platform for event management.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.11.0",
+      "onFail": "download"
+    }
+  },
+  "devDependencies": {
+    "turbo": "^2.10.4"
+  }
+}
