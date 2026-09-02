@@ -25,7 +25,11 @@ export class CreateOrganizationUseCase {
         const org = Organization.create({ name })
         const member = Membership.createOwner({ userId, organizationId: org.id })
 
-        const result = await this.organizationsRepository.create(org)
+        const slugAlreadyExists = await this.organizationsRepository.findBySlug(org.slug)
+
+        if (slugAlreadyExists) throw new Error("Org slug already exists!")
+
+        await this.organizationsRepository.create(org)
         await this.membershipsRepository.create(member)
 
         return {

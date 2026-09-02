@@ -35,4 +35,22 @@ describe("Create Organization Use Case", () => {
         expect(userId.equals(membership.userId)).toBe(true)
         expect(organization.id.equals(membership.organizationId)).toBe(true)
     })
+
+    it("should not create an organization with an existing slug", async () => {
+        const userId = new UniqueEntityId()
+        await sut.execute({
+            name: "Pedro Marques Enterprises",
+            userId
+        })
+
+        await expect(
+            sut.execute({
+                name: "Pedro Marques Enterprises",
+                userId,
+            })
+        ).rejects.toThrow()
+
+        expect(organizationsRepository.items).toHaveLength(1)
+        expect(membershipsRepository.items).toHaveLength(1)
+    })
 })

@@ -6,6 +6,7 @@ interface MembershipProps {
     role: MembershipRole
     userId: UniqueEntityId
     organizationId: UniqueEntityId
+    invitedByUserId: UniqueEntityId | null
     status: MembershipStatus
     createdAt: Date;
     updatedAt: Date;
@@ -16,12 +17,13 @@ interface CreateOwnerMembershipProps {
     organizationId: UniqueEntityId
 }
 
-type InviteMembershipRole =
+export type InviteMembershipRole =
     Exclude<MembershipRole, typeof Role.OWNER>
 
-interface CreateInviteMembershipProps {
+interface   CreateInviteMembershipProps {
     userId: UniqueEntityId
     organizationId: UniqueEntityId
+    invitedByUserId: UniqueEntityId
     role: InviteMembershipRole
 }
 
@@ -30,6 +32,7 @@ export class Membership {
     private _role: MembershipRole
     private readonly _userId: UniqueEntityId
     private readonly _organizationId: UniqueEntityId
+    private readonly _invitedByUserId: UniqueEntityId | null
     private _status: MembershipStatus
     private _createdAt: Date;
     private _updatedAt: Date;
@@ -39,6 +42,7 @@ export class Membership {
         this._role = props.role
         this._userId = props.userId
         this._organizationId = props.organizationId
+        this._invitedByUserId = props.invitedByUserId
         this._status = props.status
         this._createdAt = props.createdAt
         this._updatedAt = props.updatedAt
@@ -54,10 +58,11 @@ export class Membership {
 
     public get organizationId(): UniqueEntityId { return this._organizationId }
 
+    public get invitedByUserId(): UniqueEntityId | null { return this._invitedByUserId }
+
     public get createdAt(): Date { return this._createdAt }
 
     public get updatedAt(): Date { return this._updatedAt }
-
 
     private touch() {
         this._updatedAt = new Date()
@@ -102,6 +107,16 @@ export class Membership {
         this.touch()
     }
 
+    public canInviteMembers(): boolean {
+        return (
+            this._status === Status.ACTIVE &&
+            (
+                this._role === Role.OWNER ||
+                this._role === Role.MANAGER
+            )
+        )
+    }
+
     public static createOwner(owner: CreateOwnerMembershipProps): Membership {
         const now = new Date()
         const memberShip = new Membership({
@@ -109,7 +124,8 @@ export class Membership {
             role: Role.OWNER,
             status: Status.ACTIVE,
             createdAt: now,
-            updatedAt: now
+            updatedAt: now,
+            invitedByUserId: null,
         })
 
         return memberShip;

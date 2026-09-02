@@ -38,7 +38,8 @@ describe("Membership", () => {
         const membership = Membership.createInvite({
             organizationId,
             userId,
-            role: Role.MANAGER
+            role: Role.MANAGER,
+             invitedByUserId: new UniqueEntityId()
         })
 
 
@@ -59,7 +60,8 @@ describe("Membership", () => {
         const membership = Membership.createInvite({
             organizationId: new UniqueEntityId(),
             userId: new UniqueEntityId(),
-            role: Role.MANAGER
+            role: Role.MANAGER,
+             invitedByUserId: new UniqueEntityId()
         })
 
 
@@ -92,7 +94,8 @@ describe("Membership", () => {
         const membership = Membership.createInvite({
             organizationId: new UniqueEntityId(),
             userId: new UniqueEntityId(),
-            role: Role.MANAGER
+            role: Role.MANAGER,
+             invitedByUserId: new UniqueEntityId()
         })
 
         vi.setSystemTime(updatedAt)
@@ -134,7 +137,8 @@ describe("Membership", () => {
         const membership = Membership.createInvite({
             organizationId: new UniqueEntityId(),
             userId: new UniqueEntityId(),
-            role: Role.MANAGER
+            role: Role.MANAGER,
+             invitedByUserId: new UniqueEntityId()
         })
 
         vi.setSystemTime(updatedAt)
@@ -177,7 +181,8 @@ describe("Membership", () => {
         const membership = Membership.createInvite({
             organizationId: new UniqueEntityId(),
             userId: new UniqueEntityId(),
-            role: 'MANAGER'
+            role: 'MANAGER',
+             invitedByUserId: new UniqueEntityId()
         })
 
         vi.setSystemTime(updatedAt)
@@ -199,7 +204,8 @@ describe("Membership", () => {
         const membership = Membership.createInvite({
             organizationId: new UniqueEntityId(),
             userId: new UniqueEntityId(),
-            role: 'MANAGER'
+            role: 'MANAGER',
+             invitedByUserId: new UniqueEntityId()
         })
 
         const originalUpdatedAt = membership.updatedAt
@@ -219,7 +225,8 @@ describe("Membership", () => {
         const membership = Membership.createInvite({
             organizationId: new UniqueEntityId(),
             userId: new UniqueEntityId(),
-            role: 'MANAGER'
+            role: 'MANAGER',
+            invitedByUserId: new UniqueEntityId()
         })
 
         const originalUpdatedAt = membership.updatedAt
