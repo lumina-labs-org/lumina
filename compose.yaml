@@ -1,0 +1,46 @@
+services:
+  api:
+    container_name: lumina-api-dev
+
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+      target: development
+
+    env_file:
+      - apps/api/.env
+
+    ports:
+      - "3333:3333"
+
+    develop:
+      watch:
+        - action: sync
+          path: ./apps/api/src
+          target: /app/apps/api/src
+
+        - action: rebuild
+          path: ./apps/api/package.json
+
+        - action: rebuild
+          path: ./package.json
+
+        - action: rebuild
+          path: ./pnpm-lock.yaml
+  postgres:
+    image: postgres:17-alpine
+
+    container_name: postgres
+
+    environment:
+      POSTGRES_USER: lumina
+      POSTGRES_PASSWORD: lumina
+      POSTGRES_DB: lumina-db
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - lumina-postgres-data:/var/lib/postgresql/data
+volumes:
+  lumina-postgres-data:

@@ -33,6 +33,7 @@ export class InMemoryMembershipsRepository implements MembershipsRepository {
   async findByOrganizationId(
     organizationId: UniqueEntityId,
   ): Promise<Membership[]> {
+  
     return this.items.filter((membership) =>
       membership.organizationId.equals(organizationId)
     )
@@ -41,9 +42,11 @@ export class InMemoryMembershipsRepository implements MembershipsRepository {
   async findByUserId(
     userId: UniqueEntityId,
   ): Promise<Membership[]> {
-    return this.items.filter((membership) =>
+    const members = this.items.filter((membership) =>
       membership.userId.equals(userId)
     )
+
+    return members
   }
 
 }

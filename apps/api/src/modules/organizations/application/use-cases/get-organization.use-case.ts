@@ -1,5 +1,6 @@
 import { UniqueEntityId } from "../../../../shared/domain/entities/unique-entity-id.js"
 import { Organization } from "../../domain/entities/organization.entity.js"
+import { OrganizationNotFoundError } from "../errors/organization-not-found.error.js"
 import { OrganizationsRepository } from "../repositories/organizations.repository.js"
 
 interface GetOrganizationUseCaseRequest {
@@ -22,7 +23,7 @@ export class GetOrganizationUseCase {
       await this.organizationsRepository.findById(organizationId)
 
     if (!organization) {
-      throw new Error("Organization not found")
+      throw new OrganizationNotFoundError()
     }
 
     return {

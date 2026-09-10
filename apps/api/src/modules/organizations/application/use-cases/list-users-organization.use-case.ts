@@ -26,6 +26,8 @@ export class ListUserOrganizationsUseCase {
   async execute({
     userId,
   }: ListUserOrganizationsUseCaseRequest): Promise<ListUserOrganizationsUseCaseResponse> {
+
+
     const memberships =
       await this.membershipsRepository.findByUserId(userId)
 
@@ -44,6 +46,7 @@ export class ListUserOrganizationsUseCase {
         membership,
       })
     }
+
 
     return {
       organizations,

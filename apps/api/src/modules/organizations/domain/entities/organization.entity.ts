@@ -16,6 +16,15 @@ interface CreateOrganizationProps {
     contactPhone?: string | null
 }
 
+interface RestoreOrganizationProps {
+    name: string
+    slug: Slug
+    contactEmail: string | null
+    contactPhone: string | null
+    createdAt: Date
+    updatedAt: Date
+}
+
 export class Organization {
     private readonly _id: UniqueEntityId;
     private _name: string;
@@ -55,7 +64,7 @@ export class Organization {
 
     public rename(name: string): void {
         if (name === this._name) return;
-        
+
         Organization.validateName(name)
 
         this._name = name
@@ -84,6 +93,25 @@ export class Organization {
 
     private touch() {
         this._updatedAt = new Date()
+    }
+
+    public static restore(
+        props: RestoreOrganizationProps,
+        id: UniqueEntityId,
+    ): Organization {
+        Organization.validateName(props.name)
+
+        return new Organization(
+            {
+                name: props.name,
+                slug: props.slug,
+                contactEmail: props.contactEmail,
+                contactPhone: props.contactPhone,
+                createdAt: props.createdAt,
+                updatedAt: props.updatedAt,
+            },
+            id,
+        )
     }
 
     public static create(

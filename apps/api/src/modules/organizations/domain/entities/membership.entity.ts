@@ -117,6 +117,10 @@ export class Membership {
         )
     }
 
+    public static restore(props: MembershipProps, id: UniqueEntityId): Membership {
+        return new Membership(props, id)
+    }
+
     public static createOwner(owner: CreateOwnerMembershipProps): Membership {
         const now = new Date()
         const memberShip = new Membership({

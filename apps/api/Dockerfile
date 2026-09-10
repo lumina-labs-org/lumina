@@ -1,4 +1,8 @@
-FROM node:22-alpine AS builder
+# ------------------------------------------------
+# BASE
+# ------------------------------------------------
+
+FROM node:22-alpine AS base
 
 WORKDIR /app
 
@@ -10,11 +14,35 @@ COPY apps/api/package.json ./apps/api/package.json
 
 RUN pnpm install --frozen-lockfile
 
+
+# ------------------------------------------------
+# DEVELOPMENT
+# ------------------------------------------------
+
+FROM base AS development
+
+COPY . .
+
+EXPOSE 3333
+
+CMD ["pnpm", "--filter", "@lumina/api", "dev"]
+
+
+# ------------------------------------------------
+# BUILDER
+# ------------------------------------------------
+
+FROM base AS builder
+
 COPY . .
 
 RUN pnpm --filter @lumina/api build
 
-# -----------------------------------------------
+
+# ------------------------------------------------
+# PRODUCTION
+# ------------------------------------------------
+
 FROM node:22-alpine AS runner
 
 WORKDIR /app

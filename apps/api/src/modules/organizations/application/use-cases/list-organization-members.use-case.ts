@@ -18,6 +18,7 @@ export class ListOrganizationMembersUseCase {
   async execute({
     organizationId,
   }: ListOrganizationMembersUseCaseRequest): Promise<ListOrganizationMembersUseCaseResponse> {
+
     const memberships =
       await this.membershipsRepository.findByOrganizationId(
         organizationId,
