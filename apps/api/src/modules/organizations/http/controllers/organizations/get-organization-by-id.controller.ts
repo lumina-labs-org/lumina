@@ -29,6 +29,8 @@ export class GetOrganizationByIdController {
                 },
             })
         } catch (error) {
+            console.log(JSON.stringify(error, null, 2), "ERROR")
+            console.log(reply.statusCode)
             if (error instanceof OrganizationNotFoundError) {
                 return reply.status(404).send({
                     message: error.message,

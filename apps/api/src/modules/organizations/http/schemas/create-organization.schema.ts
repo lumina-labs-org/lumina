@@ -6,6 +6,7 @@ export const createOrganizationBodySchema = z.object({
     .string()
     .trim()
     .min(1, "Organization name is required."),
+  userId: z.uuid("User ID must be a valid UUID."),
 })
 
 

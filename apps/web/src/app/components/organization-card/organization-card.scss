@@ -1,0 +1,40 @@
+article {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  background-image: linear-gradient(#ff5733, #dd0000, #bb0000);
+  color: white;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3);
+}
+
+article h2 {
+  padding: 16px;
+  text-align: center;
+  text-shadow: 0px 10px 10px rgba(0, 0, 0, 0.3);
+}
+
+
+
+
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.actions > button {
+  background-color: rgb(255, 251, 6);
+  border-radius: 10px;
+  padding: 12px 0;
+  text-align: center;
+  min-width: 100px;
+  margin: "0 auto";
+  width: 35%;
+}
+
+.actions > a {
+  color: white;
+  font-weight: bold;
+}

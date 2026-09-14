@@ -1,0 +1,30 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <label for="name">Nome da organização</label>
+
+  <input id="name" type="text" formControlName="name" />
+  @if (form.controls.name.touched) {
+    @if (form.controls.name.hasError('required')) {
+      <p>O nome é obrigatório.</p>
+    }
+
+    @if (form.controls.name.hasError('minlength')) {
+      <p>O nome precisa ter pelo menos 3 caracteres.</p>
+    }
+  }
+
+  <button type="submit" [disabled]="form.invalid || isSubmitting()">
+    @if (isSubmitting()) {
+      Criando...
+    } @else {
+      Criar organização
+    }
+  </button>
+
+  @if (submitError()) {
+    <p class="error">
+      {{ submitError() }}
+    </p>
+  }
+
+  <p>Nome: {{ form.value.name }}</p>
+</form>

@@ -122,13 +122,25 @@ export const organizationsRoutes: FastifyPluginAsync = async (app) => {
         }),
 
         response: {
-          200: z.array(
+          200: z.object({
+            memberships: z.array(
             z.object({
               id: z.string(),
               status: z.enum(["PENDING", "ACTIVE", "DECLINED", "REVOKED"]),
               role: z.enum(["OWNER", "MEMBER", "MANAGER"]),
+              invitedUser: z.object({
+                id: z.string(),
+                name: z.string(),
+                email: z.string()
+              }),
+              invitedByUser: z.object({
+                id: z.string(),
+                name: z.string(),
+                email: z.string()
+              }).nullable(),
             }),
-          ),
+          )
+          }),
         },
       },
     },
@@ -148,7 +160,7 @@ export const organizationsRoutes: FastifyPluginAsync = async (app) => {
         }),
         body: inviteMemberBodySchema,
         response: {
-          200: z.object({
+          201: z.object({
             membership: z.object(
               {
                 id: z.string(),

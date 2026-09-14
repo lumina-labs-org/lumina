@@ -1,0 +1,14 @@
+<article>
+  <div>
+    <h2>{{ membership().invitedUser.name }}</h2>
+  </div>
+
+  <div class="flex justify-between py-4">
+    <h3>Cargo: {{ membership().role | membershipRole }}</h3>
+    <app-badge [variant]="statusVariant" [label]="membership().status | membershipStatus" />
+  </div>
+
+  @if (membership().invitedByUser !== null) {
+    <footer>Convite enviado por: {{ membership().invitedByUser.name }}</footer>
+  }
+</article>

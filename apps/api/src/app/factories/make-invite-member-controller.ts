@@ -4,8 +4,8 @@ import { InviteMemberController } from "../../modules/organizations/http/control
 
 import {
     membershipsRepository,
+    usersRepository,
 } from "../repositories/drizzle.js"
-import { usersRepository } from "../repositories/in-memory.js"
 
 export function makeInviteMemberController() {
     const inviteMemberUseCase =

@@ -12,6 +12,13 @@ interface CreateUserProps {
   email: string
 }
 
+interface RestoreUserProps {
+  name: string
+  email: string
+  createdAt: Date
+  updatedAt: Date
+}
+
 export class User {
   private readonly _id: UniqueEntityId
   private _name: string
@@ -73,5 +80,24 @@ export class User {
       },
       id,
     )
+  }
+
+  public static restore(
+    props: RestoreUserProps,
+    id: UniqueEntityId,
+  ): User {
+    User.validate(props)
+
+    return new User(props, id)
+  }
+
+  private static validate(props: Pick<UserProps, "name" | "email">): void {
+    if (!props.name) {
+      throw new Error("User name cannot be empty.")
+    }
+
+    if (!props.email) {
+      throw new Error("User email cannot be empty.")
+    }
   }
 }

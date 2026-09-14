@@ -22,7 +22,10 @@ export class GetOrganizationUseCase {
     const organization =
       await this.organizationsRepository.findById(organizationId)
 
+      console.log(organization)
+
     if (!organization) {
+      console.log('AAAAAAAAA')
       throw new OrganizationNotFoundError()
     }
 

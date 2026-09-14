@@ -1,0 +1,37 @@
+<div>
+  @if (organizationLoading()) {
+    <p>Carregando organizações...</p>
+  }
+
+  @if (organization()?.id) {
+    <div>
+      <h2>Detalhes da {{ organization()?.name }}</h2>
+
+      <p>{{ organization()?.slug }}</p>
+
+      <p>{{ organization()?.role }}</p>
+    </div>
+  }
+
+  @if (organizationError()) {
+    <p>{{ organizationError() }}</p>
+  }
+
+  <section class="members">
+    @if (memberLoading()) {
+      <p>Carregando membros...</p>
+    }
+
+    @if (members().length > 0) {
+      @for (member of members(); track member.id) {
+        <app-membercard [membership]="member" />
+      }
+    }
+
+    @if (memberError()) {
+      <p>{{ memberError() }}</p>
+    }
+  </section>
+
+  <a routerLink="/organizations"> ← Voltar para organizações </a>
+</div>

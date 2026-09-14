@@ -14,14 +14,11 @@ export class CreateOrganizationController {
     request: FastifyRequest<{ Body: CreateOrganizationBody }>,
     reply: FastifyReply,
   ) {
-    const { name } = request.body
-
-    const userId = new UniqueEntityId()
-
+    const { name, userId } = request.body
     const { org } =
       await this.createOrganizationUseCase.execute({
         name,
-        userId,
+        userId: new UniqueEntityId(userId),
       })
 
     return reply.status(201).send({

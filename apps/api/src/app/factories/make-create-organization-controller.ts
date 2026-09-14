@@ -4,6 +4,8 @@ import { CreateOrganizationController } from "../../modules/organizations/http/c
 import {
   membershipsRepository,
   organizationsRepository,
+  transactionManager,
+  usersRepository,
 } from "../repositories/drizzle.js"
 
 export function makeCreateOrganizationController() {
@@ -11,6 +13,8 @@ export function makeCreateOrganizationController() {
     new CreateOrganizationUseCase(
       organizationsRepository,
       membershipsRepository,
+      usersRepository,
+      transactionManager,
     )
 
   return new CreateOrganizationController(

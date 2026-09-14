@@ -1,0 +1,33 @@
+<h2>Organizaçoes do Pedro</h2>
+
+<div>
+  <label for="busca">Filtros: </label>
+  <input
+    id="busca"
+    [value]="search()"
+    (input)="onChangeSearch($event)"
+    placeholder="Buscar organização..."
+  />
+</div>
+
+@if (isLoading()) {
+  <p class="loading">Carregando organizações...</p>
+} @else if (error()) {
+  <p class="error">{{ error() }}</p>
+} @else {
+  <section class="organizations-grid">
+    @for (organization of filteredOrganizations(); track organization.id) {
+      <app-organization-card [organization]="organization" (remove)="removeOrganization($event)" />
+    } @empty {
+      <p class="empty">Você ainda não possui organizações.</p>
+    }
+  </section>
+}
+<br /><br />
+
+<button (click)="loadOrganizations()">Recarregar</button>
+
+<a routerLink="/organizations/new"> Nova organização </a>
+
+
+<br />

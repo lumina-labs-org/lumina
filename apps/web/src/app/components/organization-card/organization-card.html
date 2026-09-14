@@ -1,0 +1,12 @@
+<article>
+  <h2>Nome: {{ organization().name }}</h2>
+  <p>Slug: <strong>{{ organization().slug }}</strong></p>
+
+  <p>Cargo ocupado: <strong>{{ organization().role }}</strong></p>
+
+  <div class="actions">
+    <button (click)="requestRemove()">Remover</button>
+    <br /><br />
+    <a [routerLink]="['/organizations', organization().id]"> Ver detalhes </a>
+  </div>
+</article>

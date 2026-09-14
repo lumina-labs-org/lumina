@@ -22,11 +22,25 @@ export class ListOrganizationMembersController {
 
 
     return reply.status(200).send(
-      memberships.map((item) => ({
-        id: item.id.toString(),
-        status: item.status,
-        role: item.role,
+     {
+      memberships:  memberships.map((item) => ({
+        id: item.membership.id.toString(),
+        status: item.membership.status,
+        role: item.membership.role,
+        invitedUser: {
+          id: item.invitedUser.id.toString(),
+          name: item.invitedUser.name,
+          email: item.invitedUser.email,
+        },
+        invitedByUser: item.invitedByUser
+          ? {
+              id: item.invitedByUser.id.toString(),
+              name: item.invitedByUser.name,
+              email: item.invitedByUser.email,
+            }
+          : null,
       })),
+     }
     )
   }
 }

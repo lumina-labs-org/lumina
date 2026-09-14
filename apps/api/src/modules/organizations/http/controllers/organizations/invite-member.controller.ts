@@ -27,10 +27,10 @@ export class InviteMemberController {
 
     return reply.status(201).send({
       membership: {
-        id: membership.id,
+        id: membership.id.toString(),
         status: membership.status,
         role: membership.role,
-        userId: membership.userId
+        userId: membership.userId.toString(),
       },
     })
   }

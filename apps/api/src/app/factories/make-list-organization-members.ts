@@ -2,13 +2,15 @@ import { ListOrganizationMembersUseCase } from "../../modules/organizations/appl
 import { ListOrganizationMembersController } from "../../modules/organizations/http/controllers/organizations/list-organizations-members.controller.js"
 
 import {
-    membershipsRepository
+    membershipsRepository,
+    usersRepository,
 } from "../repositories/drizzle.js"
 
 export function makeListOrganizationMembersController() {
     const listOrganizationMembersUseCase =
         new ListOrganizationMembersUseCase(
             membershipsRepository,
+            usersRepository,
         )
 
     return new ListOrganizationMembersController(
