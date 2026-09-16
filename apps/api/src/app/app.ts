@@ -11,6 +11,7 @@ import { membershipsRoutes } from "../modules/organizations/http/routes/membersh
 import { organizationsRoutes } from "../modules/organizations/http/routes/organizations.routes.js";
 import { errorHandler } from "../shared/http/error-handler.js";
 import { healthRoutes } from "./routes/health.routes.js";
+import { usersRoutes } from "../modules/organizations/http/routes/users.routes.js";
 
 export function buildApp() {
   const app = fastify({
@@ -59,6 +60,10 @@ export function buildApp() {
   });
 
   app.register(membershipsRoutes, {
+    prefix: "/api",
+  });
+
+  app.register(usersRoutes, {
     prefix: "/api",
   });
 

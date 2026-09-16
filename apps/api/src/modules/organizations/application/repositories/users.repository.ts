@@ -4,5 +4,7 @@ import { User } from "../../domain/entities/user.entity.js"
 export interface UsersRepository {
     create(user: User): Promise<void>
     findById(id: UniqueEntityId): Promise<User | null>
+    findByManyId(ids: UniqueEntityId[]): Promise<User[]>
     findByEmail(email: string): Promise<User | null>
+    findAll(query?: { name?: string; email?: string }): Promise<User[]>
 }

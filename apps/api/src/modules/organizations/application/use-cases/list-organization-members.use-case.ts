@@ -31,29 +31,34 @@ export class ListOrganizationMembersUseCase {
         organizationId,
       )
 
-      const membershipsWithUsers = await Promise.all(memberships.map(async (membership) => {
-        const invitedUser = await this.usersRepository.findById(
-          membership.userId,
-        )
+    const userIds = memberships.flatMap((membership) => [
+      membership.userId,
+      ...(membership.invitedByUserId ? [membership.invitedByUserId] : []),
+    ])
 
-        const invitedByUser = membership.invitedByUserId
-          ? await this.usersRepository.findById(membership.invitedByUserId)
-          : null
+    const users = await this.usersRepository.findByManyId(userIds)
+    const usersById = new Map(users.map((user) => [user.id.toString(), user]))
 
-        if (!invitedUser) {
-          throw new Error("Invited user not found.")
-        }
+    const membershipsWithUsers = memberships.map((membership) => {
+      const invitedUser = usersById.get(membership.userId.toString())
+      const invitedByUser = membership.invitedByUserId
+        ? usersById.get(membership.invitedByUserId.toString()) ?? null
+        : null
 
-        if (membership.invitedByUserId && !invitedByUser) {
-          throw new Error("Inviter user not found.")
-        }
+      if (!invitedUser) {
+        throw new Error("Invited user not found.")
+      }
 
-        return {
-          membership,
-          invitedUser,
-          invitedByUser,
-        }
-      }))
+      if (membership.invitedByUserId && !invitedByUser) {
+        throw new Error("Inviter user not found.")
+      }
+
+      return {
+        membership,
+        invitedUser,
+        invitedByUser,
+      }
+    })
 
     return {
       memberships: membershipsWithUsers,

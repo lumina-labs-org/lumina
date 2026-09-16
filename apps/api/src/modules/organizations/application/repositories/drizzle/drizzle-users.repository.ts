@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm"
+import { and, eq, ilike, inArray } from "drizzle-orm"
 
 import { UniqueEntityId } from "../../../../../shared/domain/entities/unique-entity-id.js"
 import type { DatabaseExecutor } from "../../../../../shared/infrastructure/database/database-executor.js"
@@ -27,6 +27,19 @@ export class DrizzleUsersRepository implements UsersRepository {
     return row ? DrizzleUserMapper.toDomain(row) : null
   }
 
+  async findByManyId(ids: UniqueEntityId[]): Promise<User[]> {
+    if (ids.length === 0) {
+      return []
+    }
+
+    const rows = await this.database
+      .select()
+      .from(usersTable)
+      .where(inArray(usersTable.id, ids.map(id => id.toString())))
+
+    return rows.map(DrizzleUserMapper.toDomain)
+  }
+
   async findByEmail(email: string): Promise<User | null> {
     const [row] = await this.database
       .select()
@@ -35,5 +48,24 @@ export class DrizzleUsersRepository implements UsersRepository {
       .limit(1)
 
     return row ? DrizzleUserMapper.toDomain(row) : null
+  }
+
+  async findAll(query?: { name?: string; email?: string }): Promise<User[]> {
+    const conditions = []
+
+    if (query?.name) {
+      conditions.push(ilike(usersTable.name, `%${query.name}%`))
+    }
+
+    if (query?.email) {
+      conditions.push(ilike(usersTable.email, `%${query.email}%`))
+    }
+
+    const rows = await this.database
+      .select()
+      .from(usersTable)
+      .where(and(...conditions))
+
+    return rows.map(DrizzleUserMapper.toDomain)
   }
 }

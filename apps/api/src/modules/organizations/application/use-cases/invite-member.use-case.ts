@@ -1,5 +1,6 @@
 import { UniqueEntityId } from "../../../../shared/domain/entities/unique-entity-id.js";
 import { InviteMembershipRole, Membership } from "../../domain/entities/membership.entity.js";
+import { User } from "../../domain/entities/user.entity.js";
 import { Role } from "../../domain/enums/memberships.enums.js";
 import { MembershipsRepository } from "../repositories/memberships.repository.js";
 import { UsersRepository } from "../repositories/users.repository.js";
@@ -14,6 +15,8 @@ interface InviteMemberUseCaseRequest {
 
 interface InviteMemberUseCaseResponse {
     membership: Membership
+    invitedUser: User
+    invitedByUser: User
 }
 
 export class InviteMemberUseCase {
@@ -41,9 +44,15 @@ export class InviteMemberUseCase {
         }
 
 
-        const invited = await this.usersRepository.findById(invitedUserId)
+        const users = await this.usersRepository.findByManyId([
+            invitedUserId,
+            inviterId,
+        ])
+        const invited = users.find(user => user.id.equals(invitedUserId)) ?? null
+        const invitedBy = users.find(user => user.id.equals(inviterId)) ?? null
 
         if (!invited) throw new Error("User not found")
+        if (!invitedBy) throw new Error("Inviter user not found")
 
         const invitedAlreadyBeInTheOrg = await this.membershipsRepository.findByUserIdAndOrganizationId(invitedUserId, orgId)
 
@@ -53,7 +62,7 @@ export class InviteMemberUseCase {
 
         await this.membershipsRepository.create(membership)
 
-        return { membership }
+        return { membership, invitedUser: invited, invitedByUser: invitedBy }
 
     }
 

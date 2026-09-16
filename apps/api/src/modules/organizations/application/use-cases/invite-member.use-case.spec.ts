@@ -53,6 +53,8 @@ describe("Invite Member Use Case", () => {
         expect(result.membership.status).toBe(Status.PENDING)
         expect(result.membership.role).toBe(Role.MANAGER)
         expect(result.membership.userId.equals(invitedUserId)).toBe(true)
+        expect(result.invitedUser.id.equals(invitedUserId)).toBe(true)
+        expect(result.invitedByUser.id.equals(inviterId)).toBe(true)
 
         expect(
             result.membership.organizationId.equals(orgId)

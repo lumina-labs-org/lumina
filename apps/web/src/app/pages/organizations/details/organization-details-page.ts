@@ -4,12 +4,17 @@ import { Membership } from '../../../services/models/membership';
 import { Organization } from '../../../services/models/organization';
 import { OrganizationsService } from '../../../services/organizations.service';
 import { MemberCard } from '../../../components/member-card/member-card';
+import { LucideAngularModule, Plus, X } from 'lucide-angular';
 
 @Component({
   selector: 'app-organization-details-page',
   templateUrl: './organization-details-page.html',
   styleUrl: './organization-details-page.scss',
-  imports: [RouterLink, MemberCard],
+  imports: [
+    RouterLink,
+    MemberCard,
+    LucideAngularModule
+  ],
 })
 export class OrganizationDetailsPage implements OnInit {
   private route = inject(ActivatedRoute);
@@ -24,6 +29,14 @@ export class OrganizationDetailsPage implements OnInit {
   protected readonly members = signal<Membership[]>([]);
   protected readonly memberLoading = signal(false);
   protected readonly memberError = signal<string | null>(null);
+
+  protected readonly plusIcon = Plus;
+  protected readonly closeIcon = X;
+  protected readonly modalOpen = signal(false);
+
+  protected getModalClass(): string {
+    return this.modalOpen() ? 'invite-modal invite-modal--open' : 'invite-modal';
+  }
 
   loadOrganizationDetails(): void {
     this.organizationLoading.set(true);
@@ -64,5 +77,13 @@ export class OrganizationDetailsPage implements OnInit {
   ngOnInit(): void {
     this.loadOrganizationDetails();
     this.loadOrganizationMembers();
+  }
+
+  openModal(): void {
+    this.modalOpen.set(true);
+  }
+
+  closeModal(): void {
+    this.modalOpen.set(false);
   }
 }

@@ -18,6 +18,10 @@ export class InMemoryUsersRepository implements UsersRepository {
       return userExists
   }
 
+  async findByManyId(ids: UniqueEntityId[]): Promise<User[]> {
+    return this.items.filter(item => ids.some(id => item.id.equals(id)))
+  }
+
   async findByEmail(email: string): Promise<User | null> {
       const emailExists = this.items.find(item => item.email === email)
 

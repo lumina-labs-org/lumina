@@ -17,7 +17,7 @@ export class InviteMemberController {
     const { invitedUserId, role, inviterId } = request.body
     const { id } = request.params as { id: string }
 
-    const { membership } =
+    const { membership, invitedUser, invitedByUser } =
       await this.inviteMemberUseCase.execute({
        inviterId: new UniqueEntityId(inviterId),
        invitedUserId: new UniqueEntityId(invitedUserId),
@@ -30,7 +30,16 @@ export class InviteMemberController {
         id: membership.id.toString(),
         status: membership.status,
         role: membership.role,
-        userId: membership.userId.toString(),
+        invitedUser: {
+          id: invitedUser.id.toString(),
+          name: invitedUser.name,
+          email: invitedUser.email,
+        },
+        invitedByUser: {
+          id: invitedByUser.id.toString(),
+          name: invitedByUser.name,
+          email: invitedByUser.email,
+        },
       },
     })
   }
