@@ -16,7 +16,7 @@ interface InviteMemberUseCaseRequest {
 interface InviteMemberUseCaseResponse {
     membership: Membership
     invitedUser: User
-    invitedByUser: User
+    invitedByUser: User | null;
 }
 
 export class InviteMemberUseCase {

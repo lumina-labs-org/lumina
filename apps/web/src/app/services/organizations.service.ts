@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Organization, OrganizationResponse } from './models/organization';
-import { OrganizationMembersResponse } from './models/membership';
+import { InviteMemberResponse, Membership, OrganizationMembersResponse } from './models/membership';
 
 @Injectable({
   providedIn: 'root',
@@ -31,5 +31,14 @@ export class OrganizationsService {
     return this.http.get<OrganizationMembersResponse>(
       `http://localhost:3333/api/organizations/${id}/members`,
     );
+  }
+
+  inviteMember(orgId: string, { inviterId, invitedUserId, role} : { inviterId: string, invitedUserId: string, role: string}): Observable<InviteMemberResponse> {
+
+    return this.http.post<InviteMemberResponse>(`http://localhost:3333/api/organizations/${orgId}/invitations`, {
+      inviterId,
+      invitedUserId,
+      role
+    });
   }
 }

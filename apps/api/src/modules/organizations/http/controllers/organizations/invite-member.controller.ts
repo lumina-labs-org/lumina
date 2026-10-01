@@ -36,9 +36,9 @@ export class InviteMemberController {
           email: invitedUser.email,
         },
         invitedByUser: {
-          id: invitedByUser.id.toString(),
-          name: invitedByUser.name,
-          email: invitedByUser.email,
+          id: invitedByUser?.id.toString(),
+          name: invitedByUser?.name,
+          email: invitedByUser?.email,
         },
       },
     })

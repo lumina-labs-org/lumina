@@ -1,20 +1,17 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { LucideAngularModule, Plus, X } from 'lucide-angular';
+import { InviteFormComponent, InviteFormProps } from '../../../components/invite-form/invite-form';
+import { MemberCard } from '../../../components/member-card/member-card';
 import { Membership } from '../../../services/models/membership';
 import { Organization } from '../../../services/models/organization';
 import { OrganizationsService } from '../../../services/organizations.service';
-import { MemberCard } from '../../../components/member-card/member-card';
-import { LucideAngularModule, Plus, X } from 'lucide-angular';
 
 @Component({
   selector: 'app-organization-details-page',
   templateUrl: './organization-details-page.html',
   styleUrl: './organization-details-page.scss',
-  imports: [
-    RouterLink,
-    MemberCard,
-    LucideAngularModule
-  ],
+  imports: [RouterLink, MemberCard, LucideAngularModule, InviteFormComponent],
 })
 export class OrganizationDetailsPage implements OnInit {
   private route = inject(ActivatedRoute);
@@ -30,9 +27,14 @@ export class OrganizationDetailsPage implements OnInit {
   protected readonly memberLoading = signal(false);
   protected readonly memberError = signal<string | null>(null);
 
+  protected readonly inviteMemberError = signal<string | null>(null);
+  protected readonly inviteSubmitting = signal(false);
+
   protected readonly plusIcon = Plus;
   protected readonly closeIcon = X;
   protected readonly modalOpen = signal(false);
+
+  protected readonly search = signal('');
 
   protected getModalClass(): string {
     return this.modalOpen() ? 'invite-modal invite-modal--open' : 'invite-modal';
@@ -85,5 +87,25 @@ export class OrganizationDetailsPage implements OnInit {
 
   closeModal(): void {
     this.modalOpen.set(false);
+  }
+
+  protected onSubmit(data: InviteFormProps): void {
+    if (!this.orgId || this.inviteSubmitting()) return;
+
+    this.inviteSubmitting.set(true);
+    this.inviteMemberError.set(null);
+
+    this.organizationsService.inviteMember(this.orgId, data).subscribe({
+      next: ({ membership }) => {
+        this.members.update((members) => [...members, membership]);
+        this.inviteSubmitting.set(false);
+        this.closeModal();
+      },
+
+      error: (error) => {
+        this.inviteMemberError.set(error.error?.message ?? 'Não foi possível enviar o convite.');
+        this.inviteSubmitting.set(false);
+      },
+    });
   }
 }

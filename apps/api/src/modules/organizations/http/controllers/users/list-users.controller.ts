@@ -5,16 +5,9 @@ export class ListUsersController {
   constructor(private readonly listUsersUseCase: ListUsersUseCase) {}
 
   async handle(request: FastifyRequest, reply: FastifyReply) {
-    const { name, email } = request.query as { name: string; email: string };
+    const { query } = request.query as { query?: string };
 
-    console.log(name, email, `USERS CONTROLLER QUERY`)
-
-    const { users } = await this.listUsersUseCase.execute({
-      name,
-      email,
-    });
-
-    console.log(users, `USERS CONTROLLER LIST`)
+    const { users } = await this.listUsersUseCase.execute(query);
 
     return reply.status(200).send(
       users.map((item) => ({

@@ -1,7 +1,7 @@
+import { User } from "./user";
+
 export type Role = "OWNER" | "MANAGER" | "MEMBER"
 export type Status = "ACTIVE" | "PENDING"| "DECLINED" | "REVOKED"
-
-
 
 export interface Membership {
   id: string;
@@ -13,4 +13,8 @@ export interface Membership {
 
 export interface OrganizationMembersResponse {
   memberships: Membership[]
+}
+
+export interface InviteMemberResponse {
+  membership: Membership;
 }

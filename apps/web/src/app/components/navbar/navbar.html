@@ -1,0 +1,47 @@
+<header class="w-full bg-background font-semibold">
+  <nav
+    class="flex flex-col md:flex-row justify-between items-center gap-2 px-10 py-6 max-w-360 mx-auto"
+    aria-label="Navegação principal"
+  >
+    <a routerLink="/" aria-label="Lumina - Página inicial">
+      <span class="text-3xl font-bold">Lu<span aria-hidden="true">mina</span></span>
+    </a>
+
+    <div class="relative border border-border rounded-lg bg-muted">
+      <lucide-icon
+        [img]="searchIcon"
+        [size]="18"
+        aria-hidden="true"
+        class="absolute top-1/2 left-3 -translate-y-1/2 pointer-events-none text-accent-foreground"
+      />
+      <input
+        type="search"
+        placeholder="Buscar eventos..."
+        class="pl-14 py-2 min-w-75  "
+        aria-label="Buscar eventos"
+      />
+    </div>
+
+    <div class="flex items-center gap-10">
+      <ul class="flex items-center gap-10 text-foreground">
+        <li class="hover:text-primary-hover cursor-pointer">
+          <a href="#">Home</a>
+        </li>
+        <li class="hover:text-primary-hover cursor-pointer">
+          <a href="#events">Eventos</a>
+        </li>
+        <li class="hover:text-primary-hover cursor-pointer">
+          <a href="#tickets">Meus ingressos</a>
+        </li>
+      </ul>
+      <button  aria-label="Abrir menu do usuário" class="cursor-pointer group">
+        <lucide-icon
+          [img]="userIcon"
+          size="24"
+          class="group-hover:text-primary-hover"
+          aria-hidden="true"
+        />
+      </button>
+    </div>
+  </nav>
+</header>

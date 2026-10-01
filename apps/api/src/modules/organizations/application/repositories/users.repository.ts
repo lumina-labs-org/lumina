@@ -6,5 +6,5 @@ export interface UsersRepository {
     findById(id: UniqueEntityId): Promise<User | null>
     findByManyId(ids: UniqueEntityId[]): Promise<User[]>
     findByEmail(email: string): Promise<User | null>
-    findAll(query?: { name?: string; email?: string }): Promise<User[]>
+    findAll(query?: string): Promise<User[]>
 }

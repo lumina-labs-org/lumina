@@ -1,0 +1,145 @@
+<div>
+  <section
+    id="hero"
+    class="min-h-10/12 md:min-h-96 w-full bg-linear-to-br from-primary via-blue-600 to-indigo-800 text-white font-semibold"
+  >
+    <div
+      class="max-w-10/12 xl:max-w-7/12 mx-auto flex flex-col gap-10 justify-center items-center py-10"
+    >
+      <div class="flex flex-col justify-center items-center gap-3 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold">Encontre novas experiências</h1>
+        <p class="text-base md:text-lg text-white/85 font-medium">
+          Os melhores shows, palestras, workshops, festas e muito mais você encontra aqui.
+        </p>
+      </div>
+      <form
+        class="bg-white rounded-sm w-full h-full md:min-h-56 flex flex-col items-center py-10 gap-8 shadow-2xl"
+      >
+        <div class="flex md:flex-row flex-col justify-center items-center gap-4 px-8 w-full">
+          <div
+            hlmInputGroup
+            class="text-left mx-auto flex justify-start bg-gray-500/10 py-5 w-full md:w-10/12"
+          >
+            <label for="event-search" class="sr-only"> Evento ou artista </label>
+            <div hlmInputGroupAddon>
+              <lucide-icon
+                aria-hidden="true"
+                [img]="searchIcon"
+                size="16"
+                class="pointer-events-none"
+              />
+            </div>
+            <input
+              hlmInputGroupInput
+              type="text"
+              id="event-search"
+              placeholder="Evento ou artista"
+              class="text-foreground"
+            />
+          </div>
+
+          <div
+            hlmInputGroup
+            class="text-left mx-auto flex justify-start bg-gray-500/10 py-5 w-full md:w-10/12"
+          >
+            <label for="city-or-street" class="sr-only"> Cidade ou rua </label>
+            <div hlmInputGroupAddon>
+              <lucide-icon
+                aria-hidden="true"
+                [img]="mapIcon"
+                size="16"
+                class="pointer-events-none"
+              />
+            </div>
+            <input
+              id="city-or-street"
+              hlmInputGroupInput
+              type="text"
+              placeholder="Cidade ou rua"
+              class="text-foreground"
+            />
+          </div>
+
+          <div
+            hlmInputGroup
+            class="text-left mx-auto flex justify-start bg-gray-500/10 py-5 w-full md:w-10/12"
+          >
+            <label for="date-time" class="sr-only"> Data do evento </label>
+            <div hlmInputGroupAddon>
+              <lucide-icon
+                aria-hidden="true"
+                [img]="calendarIcon"
+                size="16"
+                class="pointer-events-none"
+              />
+            </div>
+            <input
+              id="date-time"
+              hlmInputGroupInput
+              type="text"
+              placeholder="Qualquer data"
+              class="text-foreground"
+            />
+          </div>
+        </div>
+        <div class="w-11/12 mx-auto">
+          <button
+            hlmBtn
+            type="submit"
+            class="w-full py-7 px-8 text-lg font-semibold bg-linear-to-br from-primary via-blue-600 to-indigo-500 hover:from-indigo-500 hover:bg-linear-to-tl hover:via-blue-500 hover:to-blue-800 transition duration-500 ease-in-out cursor-pointer"
+          >
+            Buscar
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+  <section>
+    <div class="p-10">
+      <h2 class="text-xl font-semibold py-1">Eventos em destaque</h2>
+      <div hlmTabs tab="all" (tabActivated)="onSelectCategory($event)" class="py-2 w-full">
+        <div hlmTabsList aria-label="Categorias dos eventos" class="gap-4 rounded-sm text-lg">
+          <button
+            hlmTabsTrigger="all"
+            class="px-3 py-2 transition-all duration-500 cursor-pointer rounded-md data-[state=active]:shadow-sm data-[state=active]:bg-primary data-[state=active]:text-white"
+          >
+            Todos
+          </button>
+          <button
+            hlmTabsTrigger="música"
+            class="px-3 py-2 transition-all duration-500 cursor-pointer rounded-md data-[state=active]:shadow-sm data-[state=active]:bg-primary data-[state=active]:text-white"
+          >
+            Musica
+          </button>
+          <button
+            hlmTabsTrigger="tecnologia"
+            class="px-3 py-2 transition-all duration-500 cursor-pointer rounded-md data-[state=active]:shadow-sm data-[state=active]:bg-primary data-[state=active]:text-white"
+          >
+            Tecnologia
+          </button>
+          <button
+            hlmTabsTrigger="workshop"
+            class="px-3 py-2 transition-all duration-500 cursor-pointer rounded-md data-[state=active]:shadow-sm data-[state=active]:bg-primary data-[state=active]:text-white"
+          >
+            Workshop
+          </button>
+          <button
+            hlmTabsTrigger="gastronomia"
+            class="px-3 py-2 transition-all duration-500 cursor-pointer rounded-md data-[state=active]:shadow-sm data-[state=active]:bg-primary data-[state=active]:text-white"
+          >
+            Gastronomia
+          </button>
+        </div>
+
+        <div
+          id="events"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+        >
+          @for (event of filteredEvents(); track event.id) {
+            <app-event-card [event]="event" />
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

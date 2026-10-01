@@ -45,40 +45,38 @@
   <a routerLink="/organizations"> ← Voltar para organizações </a>
 </div>
 
+@if (modalOpen()) {
 <div [class]="getModalClass()" (click)="closeModal()">
-  <section class="invite-modal__panel" role="dialog" aria-modal="true" aria-labelledby="invite-member-title" (click)="$event.stopPropagation()">
+  <section
+    class="invite-modal__panel"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="invite-member-title"
+    (click)="$event.stopPropagation()"
+  >
     <header class="invite-modal__header">
       <div>
         <p class="invite-modal__eyebrow">{{ organization()?.name }}</p>
         <h2 id="invite-member-title">Convidar membro</h2>
       </div>
 
-      <button type="button" class="invite-modal__close" aria-label="Fechar modal" (click)="closeModal()">
+      <button
+        type="button"
+        class="invite-modal__close"
+        aria-label="Fechar modal"
+        (click)="closeModal()"
+      >
         <lucide-icon [img]="closeIcon" [size]="20" />
       </button>
     </header>
 
-    <form class="invite-modal__form" (submit)="$event.preventDefault()">
-      <label>
-        <input
-        type="email"
-        placeholder="Buscar usuário por nome ou email..."
-        autocomplete="email"
-        />
-      </label>
-
-      <label>
-        <span>Cargo</span>
-        <select>
-          <option>Gerente</option>
-          <option>Membro</option>
-        </select>
-      </label>
-
-      <footer class="invite-modal__actions">
-        <button type="button" class="invite-modal__secondary" (click)="closeModal()">Cancelar</button>
-        <button type="submit" class="invite-modal__primary">Enviar convite</button>
-      </footer>
-    </form>
+    <app-invite-form
+      (cancel)="closeModal()"
+      (submit)="onSubmit($event)"
+      [error]="inviteMemberError()"
+      [submitting]="inviteSubmitting()"
+    />
   </section>
 </div>
+
+}

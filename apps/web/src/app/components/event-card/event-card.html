@@ -1,0 +1,53 @@
+<div class="group transition-colors duration-700 relative cursor-pointer">
+  <div
+    hlmCard
+    class="group-hover:scale-y-102 py-8 w-full min-w-72 mt-3 flex flex-col group-hover:shadow-2xs"
+  >
+    <div hlmCardHeader>
+      <img
+        class="w-full max-h-48 rounded-t-xs object-cover hover:scale-102"
+        [src]="event().imageUrl"
+        [alt]="event().title"
+      />
+      <p
+        class="absolute top-2 left-2 bg-linear-to-r from-indigo-500 via-blue-800 to-primary text-white font-semibold p-2 rounded-sm"
+      >
+        {{ event().category }}
+      </p>
+    </div>
+    <div hlmCardContent class="px-5">
+      <h3 hlmCardTitle class="leading-none font-semibold text-lg group-hover:text-primary">
+        {{ event().title }}
+      </h3>
+      <div class="flex items-center gap-4 py-1 text-black/70 text-sm">
+        <div class="flex items-center gap-1">
+          <lucide-icon [img]="mapIcon" size="16" class="text-orange-900" aria-hidden="true" />
+          {{ event().location }}
+        </div>
+        <div class="flex items-center gap-1">
+          <lucide-icon [img]="dateIcon" size="16" class="text-red-900" aria-hidden="true" />
+          {{ event().date | date: 'dd/MM/yyyy' }}
+        </div>
+      </div>
+    </div>
+
+    <footer
+      hlmCardFooter
+      class="rounded-none border-none bg-white flex justify-between items-center px-4"
+    >
+      <p class="text-sm">
+        A partir de
+        <br />
+        <span class="text-2xl font-bold text-primary"> {{ event().price | currency: 'BRL' }}</span>
+      </p>
+
+      <a
+        hlmBtn
+        [routerLink]="['/events', event().id]"
+        class="px-6 py-4 font-semibold text-[14px] rounded-sm hover:scale-102 transition-all duration-500 cursor-pointer"
+      >
+        Confira
+      </a>
+    </footer>
+  </div>
+</div>

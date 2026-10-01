@@ -17,8 +17,7 @@ export const usersRoutes: FastifyPluginAsync = async (app) => {
         summary: "List all users",
 
         querystring: z.object({
-          name: z.string().optional(),
-          email: z.string().optional(),
+          query: z.string()
         }),
 
         response: {
@@ -34,7 +33,6 @@ export const usersRoutes: FastifyPluginAsync = async (app) => {
     },
 
     async (request, reply) => {
-        console.log(request.query)
       return listUsersController.handle(request, reply);
     },
   );

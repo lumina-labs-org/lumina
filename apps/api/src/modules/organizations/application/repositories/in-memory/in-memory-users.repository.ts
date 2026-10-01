@@ -29,4 +29,17 @@ export class InMemoryUsersRepository implements UsersRepository {
 
       return emailExists
   }
+
+  async findAll(query?: string): Promise<User[]> {
+    const search = query?.trim().toLowerCase()
+
+    if (!search) {
+      return this.items
+    }
+
+    return this.items.filter((item) =>
+      item.name.toLowerCase().includes(search) ||
+      item.email.toLowerCase().includes(search),
+    )
+  }
 }

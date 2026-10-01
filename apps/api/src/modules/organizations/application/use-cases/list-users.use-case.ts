@@ -1,10 +1,5 @@
 import { UsersRepository } from "../repositories/users.repository.js";
 
-interface ListUsersUseCaseRequest {
-  name?: string;
-  email?: string;
-}
-
 interface User {
   id: string;
   name: string;
@@ -18,11 +13,8 @@ interface ListUsersUseCaseResponse {
 export class ListUsersUseCase {
   constructor(private readonly usersRepository: UsersRepository) {}
 
-  async execute({
-    name,
-    email,
-  }: ListUsersUseCaseRequest): Promise<ListUsersUseCaseResponse> {
-    const users = await this.usersRepository.findAll({ name, email });
+  async execute(query?: string): Promise<ListUsersUseCaseResponse> {
+    const users = await this.usersRepository.findAll(query);
 
     return {
       users: users.map((user) => ({

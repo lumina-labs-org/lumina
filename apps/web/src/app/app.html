@@ -1,36 +1,5 @@
 <main>
-  <h1 class="text-4xl font-bold text-red-500">{{ title() }}</h1>
-
   <router-outlet />
-
-
-
-  <!--
-  <p>Meu primeiro Angular no Lumina.</p>
-
-  <p>Nome atual: {{ organizationName() }}</p>
-
-  <input [value]="organizationName()" (input)="onNameChange($event)" />
-  <br />
-  <br />
-  <button (click)="changePermission()">Alterar Permissao</button>
-  <br />
-  @if (canCreateOrganization()) {
-    <p>Você pode criar organizações.</p>
-  } @else {
-    <p>Você não pode criar organizações</p>
-  }
-  <br />
-  <button [disabled]="!canCreateOrganization()" (click)="changeTitle()">Criar Organizacao</button>
-  <div>
-    @if (role() === 'OWNER') {
-      <p>Você é o proprietário.</p>
-    } @else if (role() === 'MANAGER') {
-      <p>Você é gerente.</p>
-    } @else {
-      <p>Você é membro.</p>
-    }
-  </div> -->
 </main>
 
 
